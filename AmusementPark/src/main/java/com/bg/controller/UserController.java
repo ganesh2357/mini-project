@@ -21,7 +21,7 @@ import com.bg.service.UserService;
 import com.bg.util.AllConstants;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController {
 
@@ -32,28 +32,28 @@ public class UserController {
 
 	// add user rest api
 	@PostMapping("/add")
-	public ResponseEntity<?> addUser(@RequestBody UserDetails user) {
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<String> addUser(@RequestBody UserDetails user) {
+		String str = null;
 		try {
-			userService.addUser(user);
-			logger.info("Adding.......");
-			return new ResponseEntity<>(AllConstants.SUCCESS_MESSAGE, HttpStatus.CREATED);
-
+			if (user == null) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			} else {
+				str = userService.addUser(user);
+				logger.info(AllConstants.LOG_MESSAGE);
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		return new ResponseEntity<>(str, HttpStatus.CREATED);
 	}
 
 	// update rest api
 	@PutMapping("/update")
 	public ResponseEntity<?> updateUser(@RequestBody UserDetails user) {
 		try {
-			userService.addUser(user);
-			logger.info("USER DETAILS ARE UPDATED...");
-			return new ResponseEntity<>(AllConstants.SUCCESS_MESSAGE, HttpStatus.OK);
+			String str = userService.addUser(user);
+			return new ResponseEntity<>(str, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
@@ -65,11 +65,13 @@ public class UserController {
 	public ResponseEntity<?> fetchAllUsers() {
 		try {
 			List<UserDetails> allUsers = userService.getAllUsers();
-			logger.info("FETCHING ALL USERS..");
-			return new ResponseEntity<>(allUsers, HttpStatus.ACCEPTED);
+			if (allUsers == null || allUsers.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<>(allUsers, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

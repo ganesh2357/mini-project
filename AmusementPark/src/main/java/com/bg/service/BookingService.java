@@ -12,7 +12,6 @@ public interface BookingService {
 
 	List<Booking> getAllBookings();
 
-	
 	String deleteRideById(int id);
 
 	Booking getBookingById(Integer id);

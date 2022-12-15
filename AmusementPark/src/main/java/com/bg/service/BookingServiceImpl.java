@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.bg.entity.Booking;
 import com.bg.exception.BusinessException;
 import com.bg.repository.BookingRepository;
+import com.bg.util.AllConstants;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -19,25 +20,19 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public String addRide(Booking ride) {
-
-		if (ride.getLandRide().isEmpty()) {
-			throw new BusinessException(HttpStatus.NOT_FOUND);
-		}
 		try {
 			bookingRepo.save(ride);
-			return "RIDE DETAILS ARE SAVED SUCCESSFULLY...";
+			return AllConstants.SUCCESS_MESSAGE4;
+
 		} catch (IllegalArgumentException e) {
-			throw new BusinessException(HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
 			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
 	public String updateRide(Booking ride) {
 		try {
 			bookingRepo.save(ride);
-			return "RIDE DETAILS ARE UPDATED SUCCESSFULLY...";
+			return AllConstants.SUCCESS_MESSAGE5;
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.BAD_REQUEST);
 		}
@@ -47,7 +42,7 @@ public class BookingServiceImpl implements BookingService {
 	public String deleteRideById(int id) {
 		try {
 			bookingRepo.deleteById(id);
-			return "RIDE DETAILS ARE DELETED SUCCESSFULLY...";
+			return AllConstants.SUCCESS_MESSAGE5;
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.BAD_REQUEST);
 		}
@@ -59,7 +54,7 @@ public class BookingServiceImpl implements BookingService {
 		try {
 			bookings = bookingRepo.findAll();
 		} catch (Exception e) {
-			throw new BusinessException(HttpStatus.BAD_REQUEST);
+			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return bookings;
 	}

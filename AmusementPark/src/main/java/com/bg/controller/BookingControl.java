@@ -19,10 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bg.entity.Booking;
 import com.bg.service.BookingService;
-import com.bg.util.AllConstants;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RequestMapping("/booking")
 public class BookingControl {
 	@Autowired
@@ -32,28 +31,26 @@ public class BookingControl {
 
 	// add rest api
 	@PostMapping("/add")
-	public ResponseEntity<?> addRide(@RequestBody Booking ride) {
-		if (ride == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<String> addRide(@RequestBody Booking ride) {
+		String str = null;
 		try {
-			bookingService.addRide(ride);
-			logger.info("RIDE DETAILS ARE SAVED..");
-			return new ResponseEntity<>(AllConstants.SUCCESS_MESSAGE, HttpStatus.CREATED);
-
+			if (ride == null) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			} else {
+				str = bookingService.addRide(ride);
+			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		return new ResponseEntity<>(str, HttpStatus.CREATED);
 	}
 
 	// update rest api
 	@PutMapping("/update")
 	public ResponseEntity<?> updateRide(@RequestBody Booking ride) {
 		try {
-			bookingService.updateRide(ride);
-			logger.info("RIDE DETAILS UPDATED..");
-			return new ResponseEntity<>(AllConstants.SUCCESS_MESSAGE, HttpStatus.ACCEPTED);
+			String str = bookingService.updateRide(ride);
+			return new ResponseEntity<>(str, HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
@@ -65,11 +62,13 @@ public class BookingControl {
 	public ResponseEntity<?> fetchAll() {
 		try {
 			List<Booking> allBookings = bookingService.getAllBookings();
-			logger.info("FETCHING ALL BOOKINGS..");
+			if (allBookings == null || allBookings.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 			return new ResponseEntity<>(allBookings, HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -77,7 +76,6 @@ public class BookingControl {
 	public ResponseEntity<?> getAllBookingsById(@PathVariable Integer id) {
 		try {
 			Booking rideList = bookingService.getBookingById(id);
-			logger.info("Fetching all bookings..");
 			return new ResponseEntity<>(rideList, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -92,9 +90,8 @@ public class BookingControl {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		try {
-			bookingService.deleteRideById(id);
-			logger.info("Deleting the booking...");
-			return new ResponseEntity<>(AllConstants.SUCCESS_MESSAGE1, HttpStatus.OK);
+			String str = bookingService.deleteRideById(id);
+			return new ResponseEntity<>(str, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

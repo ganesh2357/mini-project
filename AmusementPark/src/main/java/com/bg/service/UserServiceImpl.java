@@ -10,6 +10,7 @@ import com.bg.entity.UserDetails;
 import com.bg.exception.BusinessException;
 import com.bg.exception.UserNotFoundException;
 import com.bg.repository.UserRepository;
+import com.bg.util.AllConstants;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,26 +19,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String addUser(UserDetails user) {
-
-		if (user.getFirstName().isEmpty()) {
-			throw new BusinessException(HttpStatus.NOT_FOUND);
-		}
 		try {
 			userRepo.save(user);
-			return "USER DETAILS ARE SAVED SUCCESSFULLY...";
-		} catch (IllegalArgumentException e) {
-			throw new BusinessException(HttpStatus.BAD_REQUEST);
+			return AllConstants.SUCCESS_MESSAGE2;
 		} catch (Exception e) {
 			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
 	@Override
 	public String updateUser(UserDetails user) {
 		try {
 			userRepo.save(user);
-			return "USER DETAILS ARE UPDATED...";
+			return AllConstants.SUCCESS_MESSAGE3;
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.BAD_REQUEST);
 		}
@@ -58,7 +52,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDetails validateUser(String userName, String password) {
 		if (!userRepo.existsByuserName(userName)) {
-			throw new UserNotFoundException("User Not Found..");
+			throw new UserNotFoundException(AllConstants.ERROR_MESSAGE);
 		}
 		return userRepo.validateUserCredentials(userName, password);
 	}
