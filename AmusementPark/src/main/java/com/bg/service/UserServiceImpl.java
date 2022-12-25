@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 	public String addUser(UserDetails user) {
 		try {
 			userRepo.save(user);
-			return AllConstants.SUCCESS_MESSAGE2;
+			return AllConstants.USER_SUCCESS_MESSAGE;
 		} catch (Exception e) {
 			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	public String updateUser(UserDetails user) {
 		try {
 			userRepo.save(user);
-			return AllConstants.SUCCESS_MESSAGE3;
+			return AllConstants.USER_SUCCESS_MESSAGE1;
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.BAD_REQUEST);
 		}
@@ -55,6 +55,12 @@ public class UserServiceImpl implements UserService {
 			throw new UserNotFoundException(AllConstants.ERROR_MESSAGE);
 		}
 		return userRepo.validateUserCredentials(userName, password);
+	}
+
+	@Override
+	public List<UserDetails> getBookinhByUserName(String userName) {
+
+		return userRepo.findByuserName(userName);
 	}
 
 }

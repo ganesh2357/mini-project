@@ -6,14 +6,16 @@ import com.bg.entity.Booking;
 
 public interface BookingService {
 
-	String addRide(Booking ride);
+	public String addRide(Booking ride);
 
 	String updateRide(Booking ride);
 
 	List<Booking> getAllBookings();
 
-	String deleteRideById(int id);
+	String deleteRideById(Integer id);
 
 	Booking getBookingById(Integer id);
+	
+	
 
 }

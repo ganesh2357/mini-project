@@ -22,7 +22,7 @@ public class BookingServiceImpl implements BookingService {
 	public String addRide(Booking ride) {
 		try {
 			bookingRepo.save(ride);
-			return AllConstants.SUCCESS_MESSAGE4;
+			return AllConstants.RIDER_SUCCESS_MESSAGE;
 
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -32,17 +32,17 @@ public class BookingServiceImpl implements BookingService {
 	public String updateRide(Booking ride) {
 		try {
 			bookingRepo.save(ride);
-			return AllConstants.SUCCESS_MESSAGE5;
+			return AllConstants.RIDER_SUCCESS_MESSAGE1;
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.BAD_REQUEST);
 		}
 
 	}
 
-	public String deleteRideById(int id) {
+	public String deleteRideById(Integer id) {
 		try {
 			bookingRepo.deleteById(id);
-			return AllConstants.SUCCESS_MESSAGE5;
+			return AllConstants.RIDER_SUCCESS_MESSAGE2;
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.BAD_REQUEST);
 		}
@@ -70,5 +70,7 @@ public class BookingServiceImpl implements BookingService {
 		}
 
 	}
+
+	
 
 }

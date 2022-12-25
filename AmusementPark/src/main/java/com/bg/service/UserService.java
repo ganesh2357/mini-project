@@ -13,5 +13,7 @@ public interface UserService {
 	public List<UserDetails> getAllUsers();
 
 	public UserDetails validateUser(String userName, String password);
+	
+	public List<UserDetails> getBookinhByUserName(String userName);
 
 }

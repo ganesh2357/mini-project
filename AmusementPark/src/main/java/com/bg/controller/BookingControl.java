@@ -32,25 +32,25 @@ public class BookingControl {
 	// add rest api
 	@PostMapping("/add")
 	public ResponseEntity<String> addRide(@RequestBody Booking ride) {
-		String str = null;
+		String response = null;
 		try {
 			if (ride == null) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			} else {
-				str = bookingService.addRide(ride);
+				response = bookingService.addRide(ride);
 			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>(str, HttpStatus.CREATED);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
 	// update rest api
 	@PutMapping("/update")
 	public ResponseEntity<?> updateRide(@RequestBody Booking ride) {
 		try {
-			String str = bookingService.updateRide(ride);
-			return new ResponseEntity<>(str, HttpStatus.ACCEPTED);
+			String response = bookingService.updateRide(ride);
+			return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
@@ -82,6 +82,8 @@ public class BookingControl {
 			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
 		}
 	}
+
+
 
 	// delete booking by id
 	@DeleteMapping("/{id}")
