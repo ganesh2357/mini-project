@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bg.dto.BookingDto;
 import com.bg.entity.Booking;
 import com.bg.service.BookingService;
 
@@ -61,7 +62,7 @@ public class BookingControl {
 	@GetMapping("/getall")
 	public ResponseEntity<?> fetchAll() {
 		try {
-			List<Booking> allBookings = bookingService.getAllBookings();
+			List<BookingDto> allBookings = bookingService.getAllBookings();
 			if (allBookings == null || allBookings.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
@@ -75,15 +76,13 @@ public class BookingControl {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getAllBookingsById(@PathVariable Integer id) {
 		try {
-			Booking rideList = bookingService.getBookingById(id);
+			BookingDto rideList = bookingService.getBookingById(id);
 			return new ResponseEntity<>(rideList, HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
 		}
 	}
-
-
 
 	// delete booking by id
 	@DeleteMapping("/{id}")
@@ -92,8 +91,8 @@ public class BookingControl {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		try {
-			String str = bookingService.deleteRideById(id);
-			return new ResponseEntity<>(str, HttpStatus.OK);
+			String string = bookingService.deleteRideById(id);
+			return new ResponseEntity<>(string, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
