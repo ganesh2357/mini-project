@@ -21,6 +21,7 @@ import com.bg.dto.BookingDto;
 import com.bg.entity.Booking;
 import com.bg.repository.BookingRepository;
 import com.bg.service.BookingService;
+import com.bg.service.BookingServiceImpl;
 import com.bg.util.AllConstants;
 
 @RunWith(SpringRunner.class)
@@ -34,24 +35,30 @@ class BookingServiceTests {
 	@Autowired
 	ModelMapper modelMapper;
 
+	@Autowired
+	BookingServiceImpl bImp;
+
 	@Test
 	void addBookingTest() {
-		Booking booking = new Booking(1, "Landride", "Waterride", 1, 300, 300);
+		Booking booking = new Booking(1, "Landride", "Waterride", null, 1, 300, 300);
+
 		when(bookingRepository.save(booking)).thenReturn(booking);
-		assertEquals(AllConstants.RIDER_SUCCESS_MESSAGE, bookingService.addRide(booking));
+		BookingDto bDto = bImp.convertToDto(booking);
+		assertEquals(AllConstants.RIDER_SUCCESS_MESSAGE, bookingService.addBooking(bDto));
 	}
-	
+
 	@Test
 	void updateRideTest() {
-		Booking booking = new Booking(1, "Landride", "Waterride", 1, 300, 300);
+		Booking booking = new Booking(1, "Landride", "Waterride", null, 1, 300, 300);
 		when(bookingRepository.save(booking)).thenReturn(booking);
-		assertEquals(AllConstants.RIDER_SUCCESS_MESSAGE1, bookingService.updateRide(booking));
+		BookingDto bDto = bImp.convertToDto(booking);
+		assertEquals(AllConstants.RIDER_SUCCESS_MESSAGE1, bookingService.updateBooking(bDto));
 	}
 
 	@Test
 	void getBookingByIdTest() {
 		Integer id = 1;
-		Optional<Booking> bookingOpt = Optional.of(new Booking(1, "Landride", "Waterride", 1, 300, 300));
+		Optional<Booking> bookingOpt = Optional.of(new Booking(1, "Landride", "Waterride", null, 1, 300, 300));
 		when(bookingRepository.findById(id)).thenReturn(bookingOpt);
 		Booking booking = bookingOpt.get();
 		assertEquals(modelMapper.map(booking, BookingDto.class), bookingService.getBookingById(id));
@@ -59,26 +66,23 @@ class BookingServiceTests {
 
 	@Test
 	void getAllTicketsTest() {
-		when(bookingRepository.findAll()).thenReturn(Stream.
-				of(new Booking(1, "Landride", "Waterride", 4, 250, 1000),
-				new Booking(2, "Waterride", "LandRide", 2, 300, 600)).collect(Collectors.toList()));
+		when(bookingRepository.findAll())
+				.thenReturn(Stream
+						.of(new Booking(1, "Landride", "Waterride", null, 4, 250, 1000),
+								new Booking(2, "Waterride", "LandRide", null, 2, 300, 600))
+						.collect(Collectors.toList()));
 		assertEquals(2, bookingService.getAllBookings().size());
 	}
-	
+
 	@Test
 	void deleteRideTest() {
-		Integer id=1;
-		Optional<Booking> bookingOpt = Optional.of(new Booking(1, "Landride", "Waterride", 1, 300, 300));
+		Integer id = 1;
+		Optional<Booking> bookingOpt = Optional.of(new Booking(1, "Landride", "Waterride", null, 1, 300, 300));
 		when(bookingRepository.findById(id)).thenReturn(bookingOpt);
-		if(bookingRepository.existsById(id)) {
-			bookingService.deleteRideById(id);
-			verify(bookingRepository,times(1)).deleteById(id);
-	}
-	
-	
-	
-	
-		
+		if (bookingRepository.existsById(id)) {
+			bookingService.deleteBookingById(id);
+			verify(bookingRepository, times(1)).deleteById(id);
+		}
 
 	}
 

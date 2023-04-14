@@ -18,27 +18,38 @@ import com.bg.util.AllConstants;
 
 @Service
 public class BookingServiceImpl implements BookingService {
+
 	@Autowired
 	BookingRepository bookingRepo;
+
 	@Autowired
 	ModelMapper modelmap;
 
 	@Override
-	public String addRide(Booking ride) {
+	public String addBooking(BookingDto bookingDto) {
+
 		try {
-			bookingRepo.save(ride);
-			return AllConstants.RIDER_SUCCESS_MESSAGE;
+			Booking booking = convertToEntity(bookingDto);
+			booking = bookingRepo.save(booking);
+
+			if (booking.getId() != null) {
+				return AllConstants.RIDER_SUCCESS_MESSAGE;
+			} else {
+				return AllConstants.ERROR_MESSAGE3;
+			}
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@Override
-	public String updateRide(Booking ride) {
-		
+	public String updateBooking(BookingDto bookingDto) {
 		try {
-			bookingRepo.save(ride);
+
+			Booking booking = convertToEntity(bookingDto);
+			bookingRepo.save(booking);
 			return AllConstants.RIDER_SUCCESS_MESSAGE1;
+
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.BAD_REQUEST);
 		}
@@ -46,10 +57,12 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public String deleteRideById(Integer id) {
+	public String deleteBookingById(Integer id) {
 		try {
+
 			bookingRepo.deleteById(id);
 			return AllConstants.RIDER_SUCCESS_MESSAGE2;
+
 		} catch (IllegalArgumentException e) {
 			throw new BusinessException(HttpStatus.BAD_REQUEST);
 		}
@@ -64,9 +77,9 @@ public class BookingServiceImpl implements BookingService {
 		} catch (Exception e) {
 			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return bookings.stream().map(booking -> 
-					modelmap.map(booking, BookingDto.class))
-					.collect(Collectors.toList());
+		List<BookingDto> booking = bookings.stream().map(this::convertToDto).collect(Collectors.toList());
+
+		return booking;
 	}
 
 	@Override
@@ -79,7 +92,19 @@ public class BookingServiceImpl implements BookingService {
 		} catch (NoSuchElementException e) {
 			throw new BusinessException(HttpStatus.NOT_FOUND);
 		}
-		return modelmap.map(booking, BookingDto.class);
+		BookingDto book = convertToDto(booking);
+
+		return book;
+	}
+
+	public BookingDto convertToDto(Booking booking) {
+		BookingDto bookingDto = modelmap.map(booking, BookingDto.class);
+		return bookingDto;
+	}
+
+	public Booking convertToEntity(BookingDto bookingDto) {
+		Booking booking = modelmap.map(bookingDto, Booking.class);
+		return booking;
 	}
 
 }

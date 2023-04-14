@@ -1,23 +1,29 @@
 package com.bg.repository;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.bg.entity.UserDetails;
+import com.bg.entity.Users;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserDetails, Integer> {
+public interface UserRepository extends JpaRepository<Users, Integer> {
 
-	@Query("SELECT u FROM UserDetails u WHERE u.userName = ?1 and u.password = ?2")
-	public UserDetails validateUserCredentials(String userName, String password);
+	@Query("SELECT u FROM Users u WHERE u.username = ?1 and u.password = ?2")
+	// public Users validateUserCredentials(String username, String password);
 
-	public boolean existsByuserName(String userName);
-	
-	List<UserDetails> findByuserName(String userName);
+	public boolean existsByusername(String username);
+
+	Users findByUsername(String username);
 
 	public boolean existsByPassword(String password);
+
+	// public Optional<Users> findByEmail(String email);
+
+	boolean existsByEmail(String email);
+
+	Optional<Users> findByEmail(String email);
 
 }

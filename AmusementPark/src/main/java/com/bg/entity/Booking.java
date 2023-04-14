@@ -1,19 +1,25 @@
 package com.bg.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -31,6 +37,10 @@ public class Booking {
 	@Column(name = "WATER_RIDE", nullable = false)
 	@NotEmpty(message = "TYPE OF RIDE IS REQUIRED...")
 	private String waterRide;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DATE_OF_RIDE")
+	private Date date;
 
 	@Column(name = "TOTAL_RIDES", nullable = false)
 	@NotNull(message = "NO OF RIDES IS REQUOIRED...")

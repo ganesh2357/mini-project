@@ -15,10 +15,11 @@ import lombok.NoArgsConstructor;
 
 public class UserDetailsDto {
 	private Integer userId;
-	private String firstName;
-	private String lastName;
+	private String firstname;
+	private String lastname;
 	private Integer age;
-	private String userName;
+	private String username;
+	private String email;
 	private String password;
 
 }

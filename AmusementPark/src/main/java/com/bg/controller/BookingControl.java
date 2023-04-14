@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bg.dto.BookingDto;
-import com.bg.entity.Booking;
 import com.bg.service.BookingService;
 
 @RestController
@@ -32,13 +31,13 @@ public class BookingControl {
 
 	// add rest api
 	@PostMapping("/add")
-	public ResponseEntity<String> addRide(@RequestBody Booking ride) {
+	public ResponseEntity<String> addBooking(@RequestBody BookingDto bookingDto) {
 		String response = null;
 		try {
-			if (ride == null) {
+			if (bookingDto == null) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			} else {
-				response = bookingService.addRide(ride);
+				response = bookingService.addBooking(bookingDto);
 			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -48,9 +47,9 @@ public class BookingControl {
 
 	// update rest api
 	@PutMapping("/update")
-	public ResponseEntity<?> updateRide(@RequestBody Booking ride) {
+	public ResponseEntity<?> updateBooking(@RequestBody BookingDto bookingDto) {
 		try {
-			String response = bookingService.updateRide(ride);
+			String response = bookingService.updateBooking(bookingDto);
 			return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -91,7 +90,7 @@ public class BookingControl {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		try {
-			String string = bookingService.deleteRideById(id);
+			String string = bookingService.deleteBookingById(id);
 			return new ResponseEntity<>(string, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

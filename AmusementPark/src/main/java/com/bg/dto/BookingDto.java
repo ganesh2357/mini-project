@@ -1,20 +1,21 @@
 package com.bg.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(Include.NON_NULL)
 public class BookingDto {
 	private Integer id;
 	private String landRide;
 	private String waterRide;
+	private Date date;
 	private Integer noOfRides;
 	private Integer costOfRide;
 	private Integer totalFare;
