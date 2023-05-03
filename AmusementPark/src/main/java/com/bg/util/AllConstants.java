@@ -12,7 +12,7 @@ public class AllConstants {
 	public static final String RIDER_SUCCESS_MESSAGE1 = "RIDE DETAILS ARE UPDATED SUCCESSFULLY...";
 	public static final String RIDER_SUCCESS_MESSAGE2 = "RIDE DETAILS ARE DELETED SUCCESSFULLY...";
 
-	public static final String E_MESSAGE = "THIS EMAIL IS ALREADY REGISTERED!";
+	public static final String E_MESSAGE = "This email is already registered! please try with other";
 	public static final String ERROR_MESSAGE = "USER NOT FOUND..";
 	public static final String ERROR_MESSAGE1 = "PLEASE ENTER CORRECT ID...";
 	public static final String ERROR_MESSAGE2 = "PLEASE FILL ALL THE DETAILS...";

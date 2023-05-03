@@ -12,7 +12,7 @@ public interface UserService {
 
 	public List<UserDetailsDto> getAllUsers();
 
-	public String validateUser(String userName, String password);
+	// public String validateUser(String userName, String password);
 
 	// public List<Users> getBookinhByUserName(String userName);
 

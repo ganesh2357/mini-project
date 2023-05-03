@@ -66,12 +66,6 @@ public class UserServiceImpl implements UserService {
 		return userDto;
 	}
 
-	@Override
-	public String validateUser(String userName, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 //	@Override
 //	public String addUser(UserDetailsDto userDto) {
 //		try {

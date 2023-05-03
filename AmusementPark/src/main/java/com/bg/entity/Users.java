@@ -42,9 +42,9 @@ public class Users {
 	@NotNull(message = "AGE SHOULD NOT BE NULL...")
 	private Integer age;
 
-	@Column(name = "USER_NAME", nullable = false)
-	@NotNull(message = "USER_NAME IS REQUIRED...")
-	private String username;
+//	@Column(name = "USER_NAME", nullable = false)
+//	@NotNull(message = "USER_NAME IS REQUIRED...")
+//	private String username;
 
 	@Column(name = "EMAIL", nullable = false)
 	@NotNull(message = "MAIL ID IS REQUIRED...")

@@ -51,7 +51,7 @@ public class UserController {
 		}
 
 		Users user = new Users();
-		user.setUsername(userDto.getUsername());
+		// user.setUsername(userDto.getUsername());
 		user.setEmail(userDto.getEmail());
 		user.setFirstname(userDto.getFirstname());
 		user.setLastname(userDto.getFirstname());

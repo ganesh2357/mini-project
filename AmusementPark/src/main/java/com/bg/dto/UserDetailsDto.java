@@ -18,7 +18,7 @@ public class UserDetailsDto {
 	private String firstname;
 	private String lastname;
 	private Integer age;
-	private String username;
+
 	private String email;
 	private String password;
 
